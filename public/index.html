@@ -48,7 +48,7 @@
         </table>
     </div>
     <div class="right-block">
-        <canvas class="canvas-block" id="feeChart"></canvas>
+        <canvas class="canvas-block" id="feeChart" v-if="tableData.length"></canvas>
     </div>
 </div>
 
@@ -72,7 +72,9 @@
                     const res = await fetch('/api/quotes');
                     if (!res.ok) throw new Error('Network response was not ok');
                     this.tableData = await res.json();
-                    this.updateChart();
+                    this.$nextTick(() => {
+                        this.updateChart();
+                    });
                 } catch (e) {
                     alert('資料載入失敗');
                 }
@@ -138,7 +140,7 @@
             }
         },
         mounted() {
-            this.fetchData();
+            // this.fetchData(); // 移除自動載入
         }
     }).mount('#app');
 </script>
