@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Express</title>
+  <title>掛號費資料表</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
   <!-- Vue 3 CDN -->
@@ -9,11 +9,10 @@
 </head>
 
 <body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
+  <h1>掛號費資料表</h1>
 
   <div id="app">
-    <button @click="fetchData">顯示資料</button>
+    <button class="pure-button pure-button-primary" @click="fetchData">顯示資料</button>
     <table class="pure-table" v-if="tableData.length">
       <thead>
         <tr>
