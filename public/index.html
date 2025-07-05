@@ -3,11 +3,58 @@
 <head>
   <title>Express</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+  <!-- Vue 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 </head>
 
 <body>
   <h1>Express</h1>
   <p>Welcome to Express</p>
+
+  <div id="app">
+    <button @click="fetchData">顯示資料</button>
+    <table class="pure-table" v-if="tableData.length">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>統計期</th>
+          <th>醫院掛號費</th>
+          <th>診所掛號費</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in tableData" :key="item.id">
+          <td>{{ item.id }}</td>
+          <td>{{ item.period }}</td>
+          <td>{{ item.hospital_fee }}</td>
+          <td>{{ item.clinic_fee }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          tableData: []
+        }
+      },
+      methods: {
+        async fetchData() {
+          try {
+            const res = await fetch('/api/quotes');
+            if (!res.ok) throw new Error('Network response was not ok');
+            this.tableData = await res.json();
+          } catch (e) {
+            alert('資料載入失敗');
+          }
+        }
+      }
+    }).mount('#app');
+  </script>
 </body>
 
 </html>
