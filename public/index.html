@@ -6,44 +6,51 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
   <!-- Vue 3 CDN -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
   <h1>掛號費資料表</h1>
 
-  <div id="app">
-    <form class="pure-form" @submit.prevent="insert">
-      <fieldset>
-        <legend>新增掛號費資料</legend>
-        <input type="text" placeholder="統計期" v-model="form.period" required>
-        <input type="number" placeholder="醫院掛號費" v-model="form.hospital_fee" required>
-        <input type="number" placeholder="診所掛號費" v-model="form.clinic_fee" required>
-        <button type="submit" class="pure-button pure-button-primary">新增</button>
-      </fieldset>
-    </form>
-    <button class="pure-button pure-button-primary" @click="fetchData">顯示資料</button>
-    <table class="pure-table" v-if="tableData.length">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>統計期</th>
-          <th>醫院掛號費</th>
-          <th>診所掛號費</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in tableData" :key="item.id">
-          <td>{{ item.id }}</td>
-          <td>{{ item.period }}</td>
-          <td>{{ item.hospital_fee }}</td>
-          <td>{{ item.clinic_fee }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div id="app" style="display: flex; gap: 32px; align-items: flex-start;">
+    <div style="flex: 1;">
+      <form class="pure-form" @submit.prevent="insert">
+        <fieldset>
+          <legend>新增掛號費資料</legend>
+          <input type="text" placeholder="統計期" v-model="form.period" required>
+          <input type="number" placeholder="醫院掛號費" v-model="form.hospital_fee" required>
+          <input type="number" placeholder="診所掛號費" v-model="form.clinic_fee" required>
+          <button type="submit" class="pure-button pure-button-primary">新增</button>
+        </fieldset>
+      </form>
+      <button class="pure-button pure-button-primary" @click="fetchData">顯示資料</button>
+      <table class="pure-table" v-if="tableData.length">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>統計期</th>
+            <th>醫院掛號費</th>
+            <th>診所掛號費</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in tableData" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.period }}</td>
+            <td>{{ item.hospital_fee }}</td>
+            <td>{{ item.clinic_fee }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="flex: 1; min-width: 350px;">
+      <canvas class="canvas-block" id="feeChart"></canvas>
+    </div>
   </div>
 
   <script>
     const { createApp } = Vue;
+    let chart = null;
     createApp({
       data() {
         return {
@@ -61,6 +68,7 @@
             const res = await fetch('/api/quotes');
             if (!res.ok) throw new Error('Network response was not ok');
             this.tableData = await res.json();
+            this.updateChart();
           } catch (e) {
             alert('資料載入失敗');
           }
@@ -77,11 +85,56 @@
             this.form.period = '';
             this.form.hospital_fee = '';
             this.form.clinic_fee = '';
-            this.fetchData();
+            await this.fetchData();
           } catch (e) {
             alert('新增失敗');
           }
+        },
+        updateChart() {
+          const ctx = document.getElementById('feeChart').getContext('2d');
+          const labels = this.tableData.map(item => item.period);
+          const hospitalData = this.tableData.map(item => item.hospital_fee);
+          const clinicData = this.tableData.map(item => item.clinic_fee);
+          if (chart) chart.destroy();
+          chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: '醫院掛號費',
+                  data: hospitalData,
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  fill: false,
+                  tension: 0.1
+                },
+                {
+                  label: '診所掛號費',
+                  data: clinicData,
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  fill: false,
+                  tension: 0.1
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: '掛號費走勢圖' }
+              },
+              scales: {
+                x: { title: { display: true, text: '統計期' } },
+                y: { title: { display: true, text: '掛號費' } }
+              }
+            }
+          });
         }
+      },
+      mounted() {
+        this.fetchData();
       }
     }).mount('#app');
   </script>
