@@ -1,3 +1,25 @@
+/* 版面主體左右分欄 */
+#app {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+.left-block {
+    flex: 1;
+}
+.right-block {
+    flex: 1;
+    min-width: 350px;
+}
+
+/* canvas 區塊樣式 */
+.canvas-block {
+    width: 100% !important;
+    height: 300px !important;
+    margin-top: 120px;
+    background: #fff;
+}
+
 body {
     padding: 50px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,9 +27,4 @@ body {
 
 a {
     color: #00B7FF;
-}
-.canvas-block{
-    width: 100%;
-    height: 300px;
-    margin-top: 120px;
 }
