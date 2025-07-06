@@ -28,13 +28,13 @@
                 </div>
                 <div class="control-group">
                     <label for="itemhospitalfee">醫院掛號費: </label>
-                    <input id="itemhospitalfee" type="number" placeholder="醫院掛號費" min="0"
+                    <input id="itemhospitalfee" type="number" placeholder="醫院掛號費" min="0" step="0.01"
                            v-model="form.hospital_fee" required>
                 </div>
 
                 <div class="control-group">
                     <label for="itemclinicfee">診所掛號費: </label>
-                    <input id="itemclinicfee" type="number" placeholder="診所掛號費" min="0" v-model="form.clinic_fee"
+                    <input id="itemclinicfee" type="number" placeholder="診所掛號費" min="0" step="0.01" v-model="form.clinic_fee"
                            required>
                     <button type="submit" class="pure-button pure-button-primary">新增</button>
                 </div>
