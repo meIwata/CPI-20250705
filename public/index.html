@@ -19,25 +19,6 @@
 
 <div id="app">
     <div class="left-block">
-        <!-- 新增查詢區間表單（下拉選單版） -->
-        <form class="pure-form" @submit.prevent="search">
-            <fieldset>
-                <legend><strong>查詢掛號費資料（民國104年1月至114年5月）</strong></legend>
-                <div class="control-group">
-                    <label for="startPeriod">起始期間: </label>
-                    <select id="startPeriod" v-model="searchForm.start" required>
-                        <option v-for="p in periods" :key="p" :value="p">{{ p }}</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label for="endPeriod">結束期間: </label>
-                    <select id="endPeriod" v-model="searchForm.end" required>
-                        <option v-for="p in periods" :key="p" :value="p">{{ p }}</option>
-                    </select>
-                    <button type="submit" class="pure-button pure-button-primary">查詢</button>
-                </div>
-            </fieldset>
-        </form>
         <form class="pure-form" @submit.prevent="insert">
             <fieldset>
                 <legend><strong>新增掛號費資料</strong></legend>
@@ -58,6 +39,25 @@
                     <button type="submit" class="pure-button pure-button-primary">新增</button>
                 </div>
 
+            </fieldset>
+        </form>
+        <!-- 新增查詢區間表單（下拉選單版） -->
+        <form class="pure-form" @submit.prevent="search">
+            <fieldset>
+                <legend><strong>查詢掛號費資料（民國104年1月至114年5月）</strong></legend>
+                <div class="control-group">
+                    <label for="startPeriod">起始期間: </label>
+                    <select id="startPeriod" v-model="searchForm.start" required>
+                        <option v-for="p in periods" :key="p" :value="p">{{ p }}</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="endPeriod">結束期間: </label>
+                    <select id="endPeriod" v-model="searchForm.end" required>
+                        <option v-for="p in periods" :key="p" :value="p">{{ p }}</option>
+                    </select>
+                    <button type="submit" class="pure-button pure-button-primary">查詢</button>
+                </div>
             </fieldset>
         </form>
         <button class="pure-button pure-button-primary button-show" @click="fetchData">顯示所有資料</button>
