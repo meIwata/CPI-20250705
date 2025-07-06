@@ -4,9 +4,11 @@
     gap: 32px;
     align-items: flex-start;
 }
+
 .left-block {
     flex: 1;
 }
+
 .right-block {
     flex: 1;
     min-width: 350px;
@@ -16,7 +18,7 @@
 .canvas-block {
     width: 100% !important;
     height: 100% !important;
-    margin-top: 120px;
+    margin-top: 158px;
     background: #fff;
 }
 
@@ -28,3 +30,23 @@ body {
 a {
     color: #00B7FF;
 }
+
+.control-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 9px;
+}
+
+.control-group label {
+    min-width: 100px; /* 可依需求調整 */
+    margin-right: 8px;
+}
+
+.control-group button {
+    margin-left: 8px;
+}
+
+.button-show{
+    margin-bottom: 8px;
+}
+

@@ -20,14 +20,27 @@
     <div class="left-block">
         <form class="pure-form" @submit.prevent="insert">
             <fieldset>
-                <legend>新增掛號費資料</legend>
-                <input type="text" placeholder="統計期，輸入: 114年5月" v-model="form.period" required>
-                <input type="number" placeholder="醫院掛號費" min="0" v-model="form.hospital_fee" required>
-                <input type="number" placeholder="診所掛號費" min="0" v-model="form.clinic_fee" required>
-                <button type="submit" class="pure-button pure-button-primary">新增</button>
+                <legend><strong>新增掛號費資料</strong></legend>
+                <div class="control-group">
+                    <label for="itemperiod">統計期: </label>
+                    <input id="itemperiod" type="text" placeholder="114年5月" v-model="form.period" required>
+                </div>
+                <div class="control-group">
+                    <label for="itemhospitalfee">醫院掛號費: </label>
+                    <input id="itemhospitalfee" type="number" placeholder="醫院掛號費" min="0"
+                           v-model="form.hospital_fee" required>
+                </div>
+
+                <div class="control-group">
+                    <label for="itemclinicfee">診所掛號費: </label>
+                    <input id="itemclinicfee" type="number" placeholder="診所掛號費" min="0" v-model="form.clinic_fee"
+                           required>
+                    <button type="submit" class="pure-button pure-button-primary">新增</button>
+                </div>
+
             </fieldset>
         </form>
-        <button class="pure-button pure-button-primary" @click="fetchData">顯示資料</button>
+        <button class="pure-button pure-button-primary button-show" @click="fetchData">顯示資料</button>
         <table class="pure-table" v-if="tableData.length">
             <thead>
             <tr>
