@@ -8,6 +8,7 @@
     <!-- Vue 3 CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* 移除所有行內與內嵌 style，改由 style.css 控制 */
     </style>
@@ -23,7 +24,7 @@
                 <legend><strong>新增掛號費資料</strong></legend>
                 <div class="control-group">
                     <label for="itemperiod">統計期: </label>
-                    <input id="itemperiod" type="text" placeholder="114年5月" v-model="form.period" required>
+                    <input id="itemperiod" type="text" placeholder="114年6月" v-model="form.period" required>
                 </div>
                 <div class="control-group">
                     <label for="itemhospitalfee">醫院掛號費: </label>
@@ -100,13 +101,21 @@
                         body: JSON.stringify(this.form)
                     });
                     const msg = await res.text();
-                    alert(msg);
+                    Swal.fire({
+                        title: '新增結果',
+                        text: msg,
+                        icon: 'success'
+                    });
                     this.form.period = '';
                     this.form.hospital_fee = '';
                     this.form.clinic_fee = '';
                     await this.fetchData();
                 } catch (e) {
-                    alert('新增失敗');
+                    Swal.fire({
+                        title: '錯誤',
+                        text: '新增失敗',
+                        icon: 'error'
+                    });
                 }
             },
             updateChart() {
